@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# pre-push: структура, prettier, eslint и типы frontend.
+cd "$(git rev-parse --show-toplevel)" || exit 1
+
+node scripts/structure.mjs check || exit 1
+
+cd frontend || exit 1
+[ -d node_modules ] || { echo "Нет node_modules. Выполните: cd frontend && npm ci"; exit 1; }
+
+npm run --silent format:check && npm run --silent lint && npm run --silent typecheck || {
+  echo "Push остановлен: prettier, eslint или типы. Prettier исправляется командой: npm run format"
+  exit 1
+}

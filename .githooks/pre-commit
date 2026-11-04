@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# pre-commit: структура папок, затем prettier и eslint по изменённым файлам frontend.
+cd "$(git rev-parse --show-toplevel)" || exit 1
+
+node scripts/structure.mjs check || {
+  echo "Коммит остановлен: структура папок. Создать недостающие: node scripts/structure.mjs create"
+  exit 1
+}
+
+FILES=()
+while IFS= read -r -d '' f; do
+  FILES+=("${f#frontend/}")
+done < <(git diff --cached --name-only --diff-filter=ACMR -z -- frontend)
+
+[ "${#FILES[@]}" -eq 0 ] && exit 0
+
+cd frontend || exit 1
+[ -x node_modules/.bin/prettier ] && [ -x node_modules/.bin/eslint ] || {
+  echo "Нет node_modules. Выполните: cd frontend && npm ci"
+  exit 1
+}
+
+status=0
+./node_modules/.bin/prettier --check --ignore-unknown "${FILES[@]}" || status=1
+
+ESL=()
+for f in "${FILES[@]}"; do
+  case "$f" in
+    *.ts|*.tsx|*.js|*.jsx) ESL+=("$f") ;;
+  esac
+done
+if [ "${#ESL[@]}" -gt 0 ]; then
+  ./node_modules/.bin/eslint "${ESL[@]}" || status=1
+fi
+
+[ "$status" -eq 0 ] || echo "Коммит остановлен: prettier или eslint. Исправить: cd frontend && npm run format"
+exit "$status"

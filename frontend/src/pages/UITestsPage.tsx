@@ -1,5 +1,5 @@
 import style from "./UITestsPage.module.css";
-import MiniDrawer from "./Menu";
+import MiniDrawer from "../components/Menu";
 export const UITestsPage = () => {
   return (
     <main className={style.pageWrap}>
