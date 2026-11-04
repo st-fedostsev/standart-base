@@ -1,15 +1,8 @@
 import * as React from "react";
-import {
-  styled,
-  useTheme,
-  type Theme,
-  type CSSObject,
-} from "@mui/material/styles";
+import { styled, useTheme, type Theme, type CSSObject } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
-import MuiAppBar, {
-  type AppBarProps as MuiAppBarProps,
-} from "@mui/material/AppBar";
+import MuiAppBar, { type AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -152,11 +145,7 @@ export default function MiniDrawer({ children }: MiniDrawerProps) {
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton aria-label="close drawer" onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
+            {theme.direction === "rtl" ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />

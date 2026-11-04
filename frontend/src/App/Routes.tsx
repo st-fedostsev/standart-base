@@ -1,8 +1,4 @@
-import {
-  Route,
-  createBrowserRouter,
-  createRoutesFromElements,
-} from "react-router-dom";
+import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import { UITestsPage } from "../pages/UITestsPage";
 
 export const router = createBrowserRouter(
