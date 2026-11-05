@@ -6,13 +6,13 @@
 
 ## Стек
 
-| Часть | Технологии | Где лежит |
-|---|---|---|
-| Frontend | React, TypeScript, MUI (Material UI), Vite | `frontend/` |
-| Backend | Python, FastAPI, SQLModel | `backend/` |
-| База данных | PostgreSQL, драйвер `psycopg` | адрес задаётся `DATABASE_URL` |
-| Качество кода | ESLint, Prettier, TypeScript (frontend); Ruff, pytest (backend) | `frontend/`, `backend/` |
-| Автоматизация | GitHub Actions, git-хуки, CODEOWNERS | `.github/`, `.githooks/` |
+| Часть         | Технологии                                                      | Где лежит                     |
+| ------------- | --------------------------------------------------------------- | ----------------------------- |
+| Frontend      | React, TypeScript, MUI (Material UI), Vite                      | `frontend/`                   |
+| Backend       | Python, FastAPI, SQLModel                                       | `backend/`                    |
+| База данных   | PostgreSQL, драйвер `psycopg`                                   | адрес задаётся `DATABASE_URL` |
+| Качество кода | ESLint, Prettier, TypeScript (frontend); Ruff, pytest (backend) | `frontend/`, `backend/`       |
+| Автоматизация | GitHub Actions, git-хуки, CODEOWNERS                            | `.github/`, `.githooks/`      |
 
 ## Структура репозитория
 
@@ -35,12 +35,12 @@ standart-base/
 
 Папки `frontend/src`:
 
-| Папка | Что внутри |
-|---|---|
-| `App/` | общие обёртки: `App`, `Routes`, `ContentLayout` |
-| `components/` | переиспользуемые компоненты |
-| `pages/` | страницы, по одной на маршрут |
-| `utils/` | API-клиент, хуки и типы |
+| Папка         | Что внутри                                      |
+| ------------- | ----------------------------------------------- |
+| `App/`        | общие обёртки: `App`, `Routes`, `ContentLayout` |
+| `components/` | переиспользуемые компоненты                     |
+| `pages/`      | страницы, по одной на маршрут                   |
+| `utils/`      | API-клиент, хуки и типы                         |
 
 Импорты из `src` пишутся через алиас `@/`, например `@/utils/api`.
 
@@ -53,14 +53,14 @@ node scripts/structure.mjs create   # создаёт недостающие па
 
 ## Ветки
 
-| Ветка | Назначение | Куда вливается |
-|---|---|---|
-| `rc` | релиз, ветка по умолчанию, деплой | — |
-| `dev` | стенд для проверки | `rc` |
-| `frontend` | общая ветка фронтенда | `dev` |
-| `backend` | общая ветка бэкенда | `dev` |
-| `feature/BSP-XX-описание` | задача одного человека | `frontend` или `backend` |
-| `hotfix/описание` | срочная правка | `rc`, затем `rc` вливается в `dev` |
+| Ветка                     | Назначение                        | Куда вливается                     |
+| ------------------------- | --------------------------------- | ---------------------------------- |
+| `rc`                      | релиз, ветка по умолчанию, деплой | —                                  |
+| `dev`                     | стенд для проверки                | `rc`                               |
+| `frontend`                | общая ветка фронтенда             | `dev`                              |
+| `backend`                 | общая ветка бэкенда               | `dev`                              |
+| `feature/BSP-XX-описание` | задача одного человека            | `frontend` или `backend`           |
+| `hotfix/описание`         | срочная правка                    | `rc`, затем `rc` вливается в `dev` |
 
 Правила:
 
@@ -76,7 +76,7 @@ node scripts/structure.mjs create   # создаёт недостающие па
 `.github/CODEOWNERS`:
 
 /frontend/ @st-fedostsev @FOCUSnik1758
-/backend/  @rtmrslnv
+/backend/ @rtmrslnv
 
 Владельцы получают запрос на ревью автоматически, если в правилах веток включено «Require review from Code Owners».
 
@@ -86,19 +86,19 @@ node scripts/structure.mjs create   # создаёт недостающие па
 
 Включаются при `npm ci` в `frontend/` (скрипт `prepare`). Вручную: `git config core.hooksPath .githooks`.
 
-| Хук | Когда | Что проверяет |
-|---|---|---|
+| Хук          | Когда        | Что проверяет                                                       |
+| ------------ | ------------ | ------------------------------------------------------------------- |
 | `pre-commit` | `git commit` | структура папок; Prettier и ESLint по изменённым файлам `frontend/` |
-| `pre-push` | `git push` | структура; Prettier, ESLint и типы по всему `frontend/` |
+| `pre-push`   | `git push`   | структура; Prettier, ESLint и типы по всему `frontend/`             |
 
 Хуки только проверяют и ничего не исправляют. Форматирование исправляется командой `npm run format` в `frontend/`. Если `node_modules` нет, коммит останавливается с подсказкой. `--no-verify` обходит хуки, но CI всё равно проверит PR.
 
 ### CI
 
-| Файл | Запускается на PR в | Шаги |
-|---|---|---|
-| `ci.yml` (job `frontend`) | `frontend`, `dev` | структура → `npm ci` → `format:check` → `lint` → `typecheck` → `build` |
-| `backend.yml` (job `backend`) | `backend`, `dev` | `pip install` → `ruff check` → `ruff format --check` → `pytest` |
+| Файл                          | Запускается на PR в | Шаги                                                                   |
+| ----------------------------- | ------------------- | ---------------------------------------------------------------------- |
+| `ci.yml` (job `frontend`)     | `frontend`, `dev`   | структура → `npm ci` → `format:check` → `lint` → `typecheck` → `build` |
+| `backend.yml` (job `backend`) | `backend`, `dev`    | `pip install` → `ruff check` → `ruff format --check` → `pytest`        |
 
 Шаги идут по порядку: если один падает, следующие не выполняются. Результат виден в PR как check. Чтобы CI блокировал слияние, отметьте checks `frontend` и `backend` как обязательные в Settings → Branches.
 
@@ -114,15 +114,15 @@ npm run dev
 
 Версия Node задаётся в `frontend/.nvmrc` (сейчас 22), переключение через `nvm use`. Dev-сервер: http://localhost:5173.
 
-| Команда | Что делает |
-|---|---|
-| `npm run dev` | dev-сервер |
-| `npm run build` | проверка типов и сборка |
-| `npm run format` | Prettier: исправляет файлы |
-| `npm run format:check` | Prettier: только проверка |
-| `npm run lint` | ESLint |
-| `npm run typecheck` | проверка типов TypeScript |
-| `npm run structure` | проверка структуры папок |
+| Команда                | Что делает                 |
+| ---------------------- | -------------------------- |
+| `npm run dev`          | dev-сервер                 |
+| `npm run build`        | проверка типов и сборка    |
+| `npm run format`       | Prettier: исправляет файлы |
+| `npm run format:check` | Prettier: только проверка  |
+| `npm run lint`         | ESLint                     |
+| `npm run typecheck`    | проверка типов TypeScript  |
+| `npm run structure`    | проверка структуры папок   |
 
 Переменные в `frontend/.env.local` (файл не коммитится):
 
@@ -145,11 +145,11 @@ uvicorn app.main:app --reload
 
 Документация API (Swagger): http://localhost:8000/docs.
 
-| Команда | Что делает |
-|---|---|
-| `ruff check .` | линтер |
+| Команда                 | Что делает                                           |
+| ----------------------- | ---------------------------------------------------- |
+| `ruff check .`          | линтер                                               |
 | `ruff format --check .` | проверка форматирования (`ruff format .` исправляет) |
-| `pytest` | тесты |
+| `pytest`                | тесты                                                |
 
 Переменные окружения лежат в `backend/.env` (файл не коммитится). Адрес БД задаётся `DATABASE_URL`.
 
@@ -160,16 +160,16 @@ uvicorn app.main:app --reload
 
 ## Документация
 
-| Документ | Где |
-|---|---|
-| Оглавление | [docs/README.md](docs/README.md) |
-| Структура репозитория | [docs/structure.md](docs/structure.md) (создаётся скриптом) |
-| Frontend | [docs/frontend/README.md](docs/frontend/README.md) |
-| Backend | [docs/backend/README.md](docs/backend/README.md) |
-| Бриф | [ссылка] |
-| Бэклог | [ссылка] |
-| Матрица прав доступа | [ссылка] |
-| Инструкция по наполнению | [ссылка] |
+| Документ                 | Где                                                         |
+| ------------------------ | ----------------------------------------------------------- |
+| Оглавление               | [docs/README.md](docs/README.md)                            |
+| Структура репозитория    | [docs/structure.md](docs/structure.md) (создаётся скриптом) |
+| Frontend                 | [docs/frontend/README.md](docs/frontend/README.md)          |
+| Backend                  | [docs/backend/README.md](docs/backend/README.md)            |
+| Бриф                     | [ссылка]                                                    |
+| Бэклог                   | [ссылка]                                                    |
+| Матрица прав доступа     | [ссылка]                                                    |
+| Инструкция по наполнению | [ссылка]                                                    |
 
 Ссылки на `docs/...` работают на GitHub, если эти файлы закоммичены.
 
